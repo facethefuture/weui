@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="./style/weui.css"/>
+</head>
+<body>
+    <div id="app">
+
+        <div id="dialogs">
+        <div class="js_dialog" id="iosDialog1" :class="{test: !isShow}">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></div>
+                <div class="weui-dialog__bd">您还未完成与粉丝的绑定，请先完成绑定才能和粉丝聊天<br>
+                    为方便您的操作和后续使用，建议您在接下来的选人页面点击右上角的选择进行全选，一次性</div>
+                <div class="weui-dialog__ft">
+                    <!--<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">提示</a>-->
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="confirm">确定</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div @click="cli">cli</div>
+        <Component1></Component1>
+    </div>
+</body>
+<script src="./vue.min.js"></script>
+<script>
+    var content = {
+        data (){
+          return {
+              hello: 'hello'
+          }
+        },
+        methods: {
+            test(){
+                console.log("test")
+            }
+        },
+        template: '<div @click="test">zzzzzzzzzz</div>'
+
+    }
+    new Vue({
+        el: '#app',
+        data: {
+            msg: '123',
+            isShow: false
+        },
+        methods: {
+          cli(){
+              console.log("cli")
+              this.isShow = true
+          },
+            confirm(){
+              this.isShow = false
+            }
+        },
+        components: {
+            "Component1": content
+        }
+    })
+</script>
+<style>
+
+    .test{
+        display: none;
+    }
+</style>
+</html>

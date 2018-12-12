@@ -1,0 +1,44 @@
+.weui-tab{
+    display: flex;
+    /*position: initial;*/
+}
+.weui-tab .weui-tabbar{
+    position: fixed;
+    bottom: 0px;
+}
+.container{
+    justify-content: center;
+}
+.content{
+    display: block;
+    height: 90%;
+    overflow-y: auto;
+}
+.bottim{
+    position: relative;
+    bottom: 0px;
+}
+.navMenu{
+    display: block;
+    justify-content: center;
+    align-items: flex-end;
+    position:absolute;bottom:0;width:100%;
+}
+.page__bd{
+    top: 100%;
+}
+.content div ul li a{
+    margin-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    border-bottom: 1px solid rgba(217,217,217,0.5);
+}
+.content div ul li a span:nth-child(2){
+    line-height: 50px;
+    padding-left: 10px;
+}
+.content div ul li span img{
+    width: 50px;
+    height: 50px;
+}
