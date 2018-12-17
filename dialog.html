@@ -8,7 +8,6 @@
 </head>
 <body>
     <div id="app">
-
         <div id="dialogs">
         <div class="js_dialog" id="iosDialog1" :class="{test: !isShow}">
             <div class="weui-mask"></div>
@@ -23,43 +22,20 @@
             </div>
         </div>
         </div>
-        <div @click="cli">cli</div>
-        <Component1></Component1>
     </div>
 </body>
-<script src="./vue.min.js"></script>
+<script src="./js/vue.min.js"></script>
 <script>
-    var content = {
-        data (){
-          return {
-              hello: 'hello'
-          }
-        },
-        methods: {
-            test(){
-                console.log("test")
-            }
-        },
-        template: '<div @click="test">zzzzzzzzzz</div>'
-
-    }
     new Vue({
         el: '#app',
         data: {
             msg: '123',
-            isShow: false
+            isShow: true
         },
         methods: {
-          cli(){
-              console.log("cli")
-              this.isShow = true
-          },
             confirm(){
               this.isShow = false
             }
-        },
-        components: {
-            "Component1": content
         }
     })
 </script>

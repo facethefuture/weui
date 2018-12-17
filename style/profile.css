@@ -32,13 +32,46 @@
     padding-top: 10px;
     padding-bottom: 10px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     border-bottom: 1px solid rgba(217,217,217,0.5);
 }
-.content div ul li a span:nth-child(2){
-    line-height: 50px;
+.content div ul li a div:nth-child(1){
     padding-left: 10px;
 }
 .content div ul li span img{
     width: 50px;
     height: 50px;
 }
+.content div ul li a .information{
+    display: flex;
+}
+.content div ul li a div .infor_name{}
+.content div ul li a div .infor_name span{
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.content div ul li a div .infor_name span:nth-child(1){
+    color: #000;
+    font-size: 20px;
+}
+.content div ul li a div .infor_name span:nth-child(2){
+    color: rgba(217,217,217,1);
+    font-size: 16px;
+}
+.content div ul li a div .infor_time{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content div ul li a div .infor_time span{
+    /*width: 200px;*/
+    color: rgba(217,217,217,1);
+    font-size: 12px;
+    padding-right: 10px;
+
+}
+

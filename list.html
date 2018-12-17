@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+        <title>WeUI</title>
+        <link rel="stylesheet" href="./style/weui.css"/>
+        <link rel="stylesheet" href="./style/profile.css"/>
+    </head>
+</head>
+<body ontouchstart >
+<div id="app" class="container" >
+    <div class="content">
+        <div>
+            <ul>
+                <li v-for="item in list">
+                    <a href="#" @click="jumpToChat"><span><img :src="item[0].avatar"></span>
+                        <div class="information">
+                            <div class="infor_name"><span>{{item[0].name}}</span><span>{{item[0].description}}</span></div><div class="infor_time">  <span>{{item[0].created_timestamp}}</span></div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div calss="navMenu">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+            </div>
+            <div class="weui-tabbar">
+                <a href="javascript:;" :class="{'weui-tabbar__item': true, 'weui-bar__item_on': !isActive}" @click="activeConnector">
+                    <span style="display: inline-block;position: relative;">
+                        <img src="images/lianxiren.png" alt="" class="weui-tabbar__icon">
+                        <!--<span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>-->
+                    </span>
+                    <p class="weui-tabbar__label">联系人</p>
+                </a>
+                <a href="javascript:;" class="" :class="{'weui-tabbar__item':true,'weui-bar__item_on': isActive}" @click="activeOnboard">
+                    <img src="images/male.png" alt="" class="weui-tabbar__icon">
+                    <p class="weui-tabbar__label">上报</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+    <script src="./js/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg: '123',
+                isShow: false,
+                connection: [{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'}],
+                isActive: false,
+                list: [],
+                pageHeight: '',
+                viewportHeight: '',
+                scrollHeight: '',
+                currentPage: '',
+                maxPage: ''
+            },
+            created () {
+                //视窗的高度
+                this.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+                //隐藏的高度
+                this.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+                this.getList(1)
+            },
+            mounted () {
+                window.addEventListener('scroll',this.changePage)
+                // this.changePage()
+            },
+            methods: {
+                // 点击底部联系人图标触发的方法
+                activeConnector () {
+                  this.isActive = false
+                },
+                //点击底部上报图标触发的方法
+                activeOnboard () {
+                    this.isActive = true
+                    console.log(111)
+                    // window.location.href='http://baidu.com'
+                },
+                //请求联系人列表
+                getList (p) {
+                    this.currentPage = p
+                    var xmlhttp
+                    var url = 'https://devapi.jingsocial.com/api/jfworkwechat/workwechats/getconcactpage?page='+ p
+                    var _this = this
+                    if (window.XMLHttpRequest)
+                    {
+                        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                        xmlhttp=new XMLHttpRequest();
+                    }
+                    else
+                    {
+                        // IE6, IE5 浏览器执行代码
+                        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange=function()
+                    {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                        {
+                            // _this.list =JSON.parse(xmlhttp.responseText).data.items
+                            let tempList = JSON.parse(xmlhttp.responseText).data.items
+                            _this.maxPage = JSON.parse(xmlhttp.responseText).data._meta.pageCont
+                            tempList.forEach((item,index) => {
+                                tempList[index][0].created_timestamp = _this.dateFormat(item[0].created_timestamp * 1000)
+                                    // new Date(item[0].created_timestamp * 1000)
+                            })
+                            _this.list = _this.list.concat(tempList)
+                            _this.$nextTick(() => {
+                                console.log(Math.max(document.body.scrollHeight, document.body.offsetHeight))
+                                //真实内容的高度
+                                _this.pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight);
+
+                                // console.log(_this.viewportHeight - _this.pageHeight - _this.scrollHeight >0)
+                                if (_this.viewportHeight - _this.pageHeight - _this.scrollHeight >0) {
+                                    p++
+                                    console.log(p, _this.maxPage)
+                                    if (p <= _this.maxPage) {
+                                        _this.getList(p)
+                                    }
+                                }
+                            })
+                            console.log(tempList)
+                        }
+                    }
+                    xmlhttp.open("GET",url,true);
+                    xmlhttp.send();
+                },
+                //手机屏幕向下滑动触发的方法
+                changePage () {
+                    //如果满足触发条件，执行
+                    // console.log(this.pageHeight,this.viewportHeight,window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)
+
+                    if (this.pageHeight - this.viewportHeight - (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0) < 10) {
+                        // this.ListQuery();//查询方法
+                        if (this.currentPage < this.maxPage) {
+                             this.currentPage++
+                            this.getList(this.currentPage)
+                        }
+                        // console.log(22222)
+                        // this.getList(1)
+
+                    }
+                },
+                //格式化日期
+                dateFormat (val) {
+                    let today = new Date();
+                    today.setHours(0)
+                    today.setMinutes(0)
+                    today.setSeconds(0)
+                    today.setMilliseconds(0)
+                    today.getTime()
+                    let s = today.getTime()
+                    console.log(today)
+                    if (val !== '' && val !== null) {
+                        let time = new Date(val)
+                        // console.log(time)
+                        if (val > s) {
+                            let hour = time.getHours() > 9 ? time.getHours() : '0' + time.getHours()
+                            let minute = time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes()
+                            if (houer > 12) {
+                                return `${hour - 12}:${minute} PM`
+                            } else {
+                                return `${hour}:${minute} AM`
+                            }
+                        } else {
+                            let year = time.getFullYear()
+                            let month = (time.getMonth() + 1) > 9 ? time.getMonth() + 1 : '0' + (time.getMonth() + 1)
+                            let date = time.getDate() > 9 ? time.getDate() : '0' + time.getDate()
+                            return `${year}/${month}/${date}`
+                        }
+                        // let year = time.getFullYear()
+                        // let month = (time.getMonth() + 1) > 9 ? time.getMonth() + 1 : '0' + (time.getMonth() + 1)
+                        // let date = time.getDate() > 9 ? time.getDate() : '0' + time.getDate()
+                        // let hour = time.getHours() > 9 ? time.getHours() : '0' + time.getHours()
+                        // let minute = time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes()
+                        // let seconds = time.getSeconds() > 9 ? time.getSeconds() : '0' + time.getSeconds()
+                        // return `${year}-${month}-${date} ${hour}:${minute}:${seconds}`
+                    } else {
+                        return ''
+                    }
+                },
+                //点击联系人昵称或图像跳转到聊天界面的方法
+                jumpToChat(){
+                    console.log("聊天")
+                }
+            }
+        })
+    </script>
+</html>
