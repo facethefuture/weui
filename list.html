@@ -11,17 +11,50 @@
 </head>
 <body ontouchstart >
 <div id="app" class="container" >
-    <div class="content">
-        <div>
+    <div class="content" v-if="currentShow === '1'">
+        <div v-if="list.length > 0">
             <ul>
-                <li v-for="item in list">
-                    <a href="#" @click="jumpToChat"><span><img :src="item[0].avatar"></span>
+                <li v-for="item in list2">
+                    <a href="#" @click="jumpToChat(item[0].external_userid)"><span><img :src="item[0].avatar ? item[0].avatar : defaultImage"></span>
                         <div class="information">
-                            <div class="infor_name"><span>{{item[0].name}}</span><span>{{item[0].description}}</span></div><div class="infor_time">  <span>{{item[0].created_timestamp}}</span></div>
+                            <div class="infor_name"><span>{{item[0].name}}</span></div><div class="infor_time">  <span>{{item[0].created_timestamp}}</span></div>
                         </div>
                     </a>
                 </li>
             </ul>
+        </div>
+        <div v-if="list.length === 0" class="guideContent">
+        <div class="image">
+            <div>
+                <img src="images/wo.png">
+            </div>
+            <div>
+                <h1>欢迎使用！</h1>
+                <h1>立即点击“我”</h1>
+                <h1>和首位客户扫码加为好友</h1>
+            </div>
+            <div>
+                <img src="images/jiantou.png">
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="qrcodePage" v-if="currentShow === '2'">
+        <div class="sales_information">
+            <div>
+                <img src="images/logo.png">
+            </div>
+            <div>
+                <div><span><h1>刘薇琪</h1></span><span>销售顾问</span></div>
+                <div><img src="images/qrcode.png"></div>
+            </div>
+        </div>
+    </div>
+    <div id="loadingToast" v-if="isShow">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">正在上报中..</p>
         </div>
     </div>
     <div calss="navMenu">
@@ -43,31 +76,37 @@
             </div>
         </div>
     </div>
+
 </div>
+<!-- loading toast -->
 
 </body>
     <script src="./js/vue.min.js"></script>
     <script>
         new Vue({
             el: '#app',
-            data: {
-                msg: '123',
-                isShow: false,
-                connection: [{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'},{name: '张三',pic: 'images/girl.jpg'}],
-                isActive: false,
-                list: [],
-                pageHeight: '',
-                viewportHeight: '',
-                scrollHeight: '',
-                currentPage: '',
-                maxPage: ''
+            data () {
+                return {
+                    isShow: false,
+                    isActive: false,
+                    list: [],
+                    list2: [[{name: 'hellow', avatar: 'images/girl.png', created_timestamp: this.dateFormat(1545791332824)}],[{name: 'hellow', avatar: 'images/girl.png', created_timestamp: this.dateFormat(1545791332824)}],[{name: 'hellow', avatar: 'images/girl.png', created_timestamp: this.dateFormat(1545791332824)}],[{name: 'hellow', avatar: 'images/girl.png', created_timestamp: this.dateFormat(1545791332824)}]],
+                    pageHeight: '',
+                    viewportHeight: '',
+                    scrollHeight: '',
+                    currentPage: '',
+                    maxPage: '',
+                    isShow: false,
+                    defaultImage: 'images/male.png',
+                    currentShow: '1'
+                }
             },
             created () {
                 //视窗的高度
                 this.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
                 //隐藏的高度
                 this.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-                this.getList(1)
+                // this.getList(1)
             },
             mounted () {
                 window.addEventListener('scroll',this.changePage)
@@ -77,12 +116,54 @@
                 // 点击底部联系人图标触发的方法
                 activeConnector () {
                   this.isActive = false
+                    this.currentShow = '1'
                 },
                 //点击底部上报图标触发的方法
                 activeOnboard () {
                     this.isActive = true
+                    // this.isShow = true
+                    this.currentShow = '2'
                     console.log(111)
                     // window.location.href='http://baidu.com'
+                    return false
+                    var xmlhttp
+                    var url = 'https://devapi.jingsocial.com/api/workwechat/workreports/reportexternalcontact'
+                    var _this = this
+                    if (window.XMLHttpRequest)
+                    {
+                        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                        xmlhttp=new XMLHttpRequest();
+                    }
+                    else
+                    {
+                        // IE6, IE5 浏览器执行代码
+                        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange=function()
+                    {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                        {
+                            // _this.list =JSON.parse(xmlhttp.responseText).data.items
+                            // let tempList = JSON.parse(xmlhttp.responseText).data.items
+                            //请求成功隐藏上报中的弹窗
+                            _this.isShow = false
+                            //刷新页面
+                            window.location.reload()
+
+                        } else {
+                            //请求失败隐藏上报中的弹窗
+                            _this.isShow = false
+                        }
+                    }
+                    xmlhttp.open("POST",url,true);
+                    //设置请求头信息
+                    // xmlhttp.setRequestHeader("myheader","header");
+
+                    // 设置参数
+                    var obj = {
+                        args: '参数'
+                    }
+                    xmlhttp.send(JSON.stringify(obj))
                 },
                 //请求联系人列表
                 getList (p) {
@@ -130,6 +211,8 @@
                         }
                     }
                     xmlhttp.open("GET",url,true);
+                    //设置请求头信息
+                    // xmlhttp.setRequestHeader("myheader","header");
                     xmlhttp.send();
                 },
                 //手机屏幕向下滑动触发的方法
@@ -164,7 +247,7 @@
                         if (val > s) {
                             let hour = time.getHours() > 9 ? time.getHours() : '0' + time.getHours()
                             let minute = time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes()
-                            if (houer > 12) {
+                            if (hour > 12) {
                                 return `${hour - 12}:${minute} PM`
                             } else {
                                 return `${hour}:${minute} AM`
@@ -187,7 +270,9 @@
                     }
                 },
                 //点击联系人昵称或图像跳转到聊天界面的方法
-                jumpToChat(){
+                jumpToChat(val){
+                    //external_userid
+                    console.log(val)
                     console.log("聊天")
                 }
             }

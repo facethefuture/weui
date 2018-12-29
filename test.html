@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button id="add">add</button>
+<button id="add2">add2</button>
+    <button id="add3">add3</button>
+    <button id="add4">add4</button>
+
+    <button id="add5">add5</button>
+
+</body>
+<script>
+
+    window.onload=function(){
+    }
+
+    document.querySelector("#add").onclick=function(){
+        console.log(123)
+    }
+    function add(){
+        var count = 0
+        count+=1
+        console.log(count)
+    }
+    add();
+    add();
+
+    add();
+    (function () {
+        console.log("自执行函数")
+    })();
+    var x = function(){
+        console.log("用函数表达式申明函数");
+    }
+    var add2 = (function(){
+        var count = 0;
+        return function(){
+            return count+=1
+        }
+    })()
+    document.querySelector("#add2").onclick=function () {
+        console.log(add2())
+    }
+    document.querySelector("#add3").onclick=function () {
+        console.log(add2())
+    }
+
+    function fn(){
+        var a = 0;
+        return function (){
+            return ++a;
+        }
+    }
+    var y = fn();
+    var z = fn();
+    document.querySelector("#add4").onclick=function () {
+        console.log(y())
+    }
+    document.querySelector("#add5").onclick=function () {
+        console.log(z())
+    }
+</script>
+</html>

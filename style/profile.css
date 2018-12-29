@@ -1,18 +1,27 @@
+html,body{
+    height: 100%;
+}
 .weui-tab{
     display: flex;
     /*position: initial;*/
 }
 .weui-tab .weui-tabbar{
-    position: fixed;
-    bottom: 0px;
+    position:fixed;
+    z-index:40;
+    width:100%;
+    bottom:0px;
 }
 .container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 .content{
     display: block;
-    height: 90%;
+    height: 100%;
     overflow-y: auto;
+    /*padding-bottom: 50px;*/
 }
 .bottim{
     position: relative;
@@ -22,17 +31,17 @@
     display: block;
     justify-content: center;
     align-items: flex-end;
-    position:absolute;bottom:0;width:100%;
+    position:fixed;bottom:0;width:100%;
 }
 .page__bd{
     top: 100%;
 }
 .content div ul li a{
     margin-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    /*padding-bottom: 10px;*/
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
     border-bottom: 1px solid rgba(217,217,217,0.5);
 }
@@ -45,11 +54,13 @@
 }
 .content div ul li a .information{
     display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 .content div ul li a div .infor_name{}
 .content div ul li a div .infor_name span{
     display: inline-block;
-    width: 150px;
+    /*width: 150px;*/
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -68,10 +79,103 @@
     align-items: center;
 }
 .content div ul li a div .infor_time span{
-    /*width: 200px;*/
+    min-width: 60px;
     color: rgba(217,217,217,1);
     font-size: 12px;
     padding-right: 10px;
 
+}
+.hidden {
+    display: none;
+}
+#loadingToast .weui-toast {
+    width: 60%;
+    margin-left: -30%;
+}
+.guideContent{
+    height: 100%;
+    width: 100%;
+    background: rgba(235,235,235,1);
+    display: flex;
+    justify-content: center;
+}
+.guideContent .image{
+    width: 100%;
+    margin-top: 30%;
+    display: inline-block;
+}
+.guideContent .image div:nth-child(1){
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+
+}
+.guideContent .image div:nth-child(2){
+    width: 100%;
+}
+.guideContent .image div:nth-child(2) h1{
+    display: flex;
+    justify-content: center;
+}
+.guideContent .image div:nth-child(3){
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.guideContent .image img{
+    height: 100px;
+    width: 100px;
+}
+.guideContent div:nth-child(2){
+    display: inline-block;
+}
+/*qrcodepage*/
+.qrcodePage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.qrcodePage .sales_information{
+    margin-top: 30px;
+    width: 90%;
+    height: 90%;
+    /*display: flex;*/
+    justify-content: center;
+    background: rgba(235,235,235,1);
+    border-radius: 5px;
+}
+.qrcodePage .sales_information div:nth-child(1){
+    /*margin: 0 auto;*/
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+.qrcodePage .sales_information div:nth-child(1) img{
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+}
+.qrcodePage .sales_information div:nth-child(2){
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.qrcodePage .sales_information div:nth-child(2) div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.qrcodePage .sales_information div:nth-child(2) div{
+    background: #09BB07;
+}
+.qrcodePage .sales_information div:nth-child(2) span{
+    display: flex;
+    justify-content: center;
+}
+.qrcodePage .sales_information div:nth-child(2) span:nth-child(1){
+    display: flex;
+    justify-content: center;
 }
 
