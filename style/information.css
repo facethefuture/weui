@@ -1,0 +1,44 @@
+html,body{
+    height: 100%;
+}
+#app{
+    height: 100%;
+}
+.personalInfo{
+    background: rgba(235,235,235,1);
+    height: 100%;
+}
+.personalInfo .headerPart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.personalInfo .headerPart .personalInfo_headImage img{
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin: 20px;
+}
+.personalInfo .headerPart .personalInfo_text{
+    display: flex;
+    flex-direction: column;
+}
+.personalInfo .headerPart .personalInfo_text input{
+    height: 22px;
+    line-height: 22px;
+    border: 0px;
+    font-size: 20px;
+    width: 85%;
+    background: white;
+}
+.personalInfo .crm_infomation{
+    height: 150px;
+    background: white;
+    margin: 13px 10px;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+}

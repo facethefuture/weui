@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+        <title>个人信息</title>
+        <link rel="stylesheet" href="./style/weui.css"/>
+        <link rel="stylesheet" href="./style/information.css"/>
+    </head>
+</head>
+
+<body>
+<div id="app">
+    <div class="personalInfo">
+        <div class="headerPart">
+            <div class="personalInfo_headImage">
+                <img src="images/girl.jpg">
+            </div>
+            <div class="personalInfo_text">
+                <input placeholder="请输入客户名称" value="">
+                <span>昵称：么么哒</span>
+                <span>性别：女</span>
+                <span>地区：中国/上海</span>
+                <span>语言：zh_CN</span>
+            </div>
+        </div>
+        <div class="crm_infomation">
+            <span>CRM信息</span>
+            <span>Member Code : CD12345678</span>
+        </div>
+
+    </div>
+
+</div>
+</body>
+<script src="./js/vue.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return {
+                
+            }
+        },
+        created(){
+
+        },
+        methods: {
+            getInfo(){
+                var xmlhttp
+                var url = 'https://devapi.jingsocial.com/api/jfworkwechat/workwechats/getconcactpage?page='
+                var _this = this
+                if (window.XMLHttpRequest)
+                {
+                    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=function()
+                {
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        // _this.list =JSON.parse(xmlhttp.responseText).data.items
+                        let tempList = JSON.parse(xmlhttp.responseText).data.items
+                        _this.list = _this.list.concat(tempList)
+
+                        console.log(tempList)
+                    }
+                }
+                xmlhttp.open("GET",url,true);
+                //设置请求头信息
+                // xmlhttp.setRequestHeader("myheader","header");
+                xmlhttp.send();
+            }
+        }
+    })
+</script>
+</html>

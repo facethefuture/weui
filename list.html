@@ -41,13 +41,16 @@
     </div>
     <div class="qrcodePage" v-if="currentShow === '2'">
         <div class="sales_information">
-            <div>
+            <div class="logobox">
                 <img src="images/logo.png">
             </div>
-            <div>
+            <div class="infomationbox">
                 <div><span><h1>刘薇琪</h1></span><span>销售顾问</span></div>
                 <div><img src="images/qrcode.png"></div>
             </div>
+        </div>
+        <div class="qrcodePageBottom">
+            <p>邀请尊敬的客户，成为公众号粉丝</p>
         </div>
     </div>
     <div id="loadingToast" v-if="isShow">
@@ -59,8 +62,6 @@
     </div>
     <div calss="navMenu">
         <div class="weui-tab">
-            <div class="weui-tab__panel">
-            </div>
             <div class="weui-tabbar">
                 <a href="javascript:;" :class="{'weui-tabbar__item': true, 'weui-bar__item_on': !isActive}" @click="activeConnector">
                     <span style="display: inline-block;position: relative;">
